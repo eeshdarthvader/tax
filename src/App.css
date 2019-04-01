@@ -143,20 +143,16 @@
 
 body {
   font-family: "Muli", sans-serif;
+  
 }
 * {
   box-sizing: border-box;
 }
-
-input[type="text"],
-input[type="password"] {
-  width: 55%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
+.bg-grey{
+  background-color: #f9f9f9;
 }
+
+
 
 /* Add a background color when the inputs get focus */
 input[type="text"]:focus,
@@ -298,8 +294,29 @@ hr {
   background-color: #5dc32c;
 }
 
+.bg-orange {
+  background-color: #F77728;
+}
+
+.b-orange{
+  border-color:  #F77728
+}
+
 .tc {
   justify-content: center;
+}
+
+.pb-30{
+  padding-bottom: 30px 
+}
+
+
+.h-80{
+  height: 80px;
+}
+
+.ml-24{
+  margin-left: 24px !important;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */

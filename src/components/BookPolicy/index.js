@@ -14,10 +14,10 @@ import {
   Banner,
   Collapse,
   Fade
-} from "Bento";
+} from "@cleartrip/bento";
 
 import ItineraryHeader from "../../lib/ItineraryHeader";
-import ItineraryBody from "../../lib/ItineraryHeader";
+import ItineraryBody from "../../lib/ItineraryBody";
 import ItineraryCollapsed from "../../lib/ItineraryCollapsed";
 
 import Header from "../Header";
@@ -37,12 +37,12 @@ class BookPolicy extends React.Component {
   }
   render() {
     return (
-      <Fragment>
+      <div className="bg-grey" >
 
         {/* Page Header */}
         <Header />
 
-        <Container>
+        <Container >
 
           {/* Page Title */}
           <Row className="my-40">
@@ -80,31 +80,20 @@ class BookPolicy extends React.Component {
                       <Col span={7}>
                         <div className="flex flex-column flex-center" style={{ height: '84px' }}>
                           <p className="fs-body-2 fw-600 mb-4">
-                            14 day visa to UAE
+                              Money back
                           </p>
                           <p className="fs-caption-2 c-grey-40">
-                            Entry date: 25/09/2018  Exit date: 09/10/2018
+                              820-25
                           </p>
                         </div>
                       </Col>
-                      <Col span={4}>
-                        <div className="flex flex-column flex-center" style={{ height: '84px' }}>
-                          <p className="fs-body-2 fw-600 mb-4">
-                            2 adults, 1 child
-                          </p>
-                          <p className="fs-caption-2 c-grey-40">
-                            Nationality: Indian
-                          </p>
-                        </div>
-                      </Col>
+                      
                       <Col span={5}>
                         <div className="flex flex-middle" style={{ height: '84px' }}>
                           <p className="fs-body-2 fw-600 lh-0">
-                            AED 885
+                            Rs 885
                           </p>
-                          <Badge className="ml-12">
-                            Refundable
-                          </Badge>
+                         
                         </div>
                       </Col>
                       <Col span={2}>
@@ -121,7 +110,7 @@ class BookPolicy extends React.Component {
 
               <If condition={this.state.review === 'active'}>
                 <ItineraryHeader step={1} active>
-                  Review your visa application details
+                  Review your policy details
                 </ItineraryHeader>
               </If>
 
@@ -131,26 +120,23 @@ class BookPolicy extends React.Component {
                 <ItineraryBody>
                 <Row>
                   <Col span={6}>
-                    <div className="flex flex-center flex-middle bg-grey-05" style={{
-                      width: '200px',
-                      height: '160px'
-                    }}>
-                      <img src={UAE} alt="UAE" />
-                    </div>
+                  <div
+                      className="flex flex-center flex-middle bg-grey-05"
+                      style={{
+                        width: "200px",
+                        height: "160px"
+                      }}
+                    ></div>
                   </Col>
                   <Col span={18}>
                     <p className="fs-body-3 fw-600 mb-16">
-                      14 day visa to UAE
+                        Money back
                     </p>
+                    
                     <p className="fs-body-2 mb-12">
-                      Travellers: 2 adults, 1 child
+                        820-25
                     </p>
-                    <p className="fs-body-2 mb-12">
-                      Nationality: Indian
-                    </p>
-                    <p className="fs-body-2 mb-16">
-                      Entry date: 25/09/2018  Exit date: 09/10/2018
-                    </p>
+                    
 
                     <Divider className="my-20" />
 
@@ -168,10 +154,7 @@ class BookPolicy extends React.Component {
 
                     <p className="mb-16 fs-body">Payable amount</p>
 
-                    <div className="flex flex-start flex-middle mb-4">
-                      <p className="fs-body-3 fw-800">AED 295</p>
-                      <Badge className="ml-8">Refundable</Badge>
-                    </div>
+                    
 
                     <p className="fs-caption-2 c-grey-40 mb-20">
                       Inclusive of all taxes
@@ -183,7 +166,7 @@ class BookPolicy extends React.Component {
 
                     <Button
                       type="primary"
-                      className="mt-24"
+                      className="mt-24 pb-30"
                       onClick={() => this.setState({
                         'review': 'collapsed',
                         'contact': 'active'
@@ -275,11 +258,7 @@ class BookPolicy extends React.Component {
                         placeholder="Enter your email address"
                       />
 
-                      <div>
-                        <Checkbox className="mt-12">
-                          I have a Cleartrip password
-                        </Checkbox>
-                      </div>
+                     
                     </div>
 
 
@@ -301,7 +280,7 @@ class BookPolicy extends React.Component {
 
                       <Button
                         type="primary"
-                        className="mt-24"
+                        className="mt-24 pb-30"
                         onClick={() => this.setState({
                           'review': 'collapsed',
                           'contact': 'collapsed',
@@ -452,7 +431,7 @@ class BookPolicy extends React.Component {
                       </Row>
                     </div>
 
-                    <Button type="primary" className="mt-20">
+                    <Button type="primary" className="mt-20 pb-30">
                       Continue booking
                     </Button>
 
@@ -472,7 +451,7 @@ class BookPolicy extends React.Component {
           </Row>
 
         </Container>
-      </Fragment>
+      </div>
     )
   }
 }

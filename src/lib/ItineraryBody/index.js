@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 
 
-const ItineararyBody = props => {
+const ItineararyHeader = props => {
 
   const bgClass = classnames(
     'nmt-16',
@@ -12,6 +12,7 @@ const ItineararyBody = props => {
     'bg-white',
     'bbr-4',
     'p-32',
+    'pt-48',
     props.className
   )
 
@@ -22,13 +23,13 @@ const ItineararyBody = props => {
   )
 };
 
-ItineararyBody.propTypes = {
+ItineararyHeader.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string
 };
 
-ItineararyBody.defaultProps = {
+ItineararyHeader.defaultProps = {
   className: ''
 };
 
-export default React.memo(ItineararyBody);
+export default React.memo(ItineararyHeader);

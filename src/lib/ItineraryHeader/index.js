@@ -7,18 +7,18 @@ import classnames from 'classnames'
 const ItineararyHeader = props => {
 
   const bgClass = classnames(
-    'h-60',
+    'h-80',
     'flex',
     'flex-middle',
     'px-32',
     'py-12',
-    'mb-16',
     {
       'br-4': !props.active,
       'btr-4': props.active,
       'bg-white': !props.active,
       'bg-blue': props.active
-    }
+    },
+    props.className
   )
 
   const labelClass = classnames(
