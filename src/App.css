@@ -143,16 +143,13 @@
 
 body {
   font-family: "Muli", sans-serif;
-  
 }
 * {
   box-sizing: border-box;
 }
-.bg-grey{
+.bg-grey {
   background-color: #f9f9f9;
 }
-
-
 
 /* Add a background color when the inputs get focus */
 input[type="text"]:focus,
@@ -191,7 +188,7 @@ button:hover {
 
 /* Add padding to container elements */
 .container {
-  padding: 16px;
+  padding: 16px !important;
 }
 
 /* The Modal (background) */
@@ -295,27 +292,26 @@ hr {
 }
 
 .bg-orange {
-  background-color: #F77728;
+  background-color: #f77728;
 }
 
-.b-orange{
-  border-color:  #F77728
+.b-orange {
+  border-color: #f77728;
 }
 
 .tc {
   justify-content: center;
 }
 
-.pb-30{
-  padding-bottom: 30px 
+.pb-30 {
+  padding-bottom: 30px;
 }
 
-
-.h-80{
+.h-80 {
   height: 80px;
 }
 
-.ml-24{
+.ml-24 {
   margin-left: 24px !important;
 }
 

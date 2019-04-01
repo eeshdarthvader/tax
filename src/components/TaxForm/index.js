@@ -69,6 +69,8 @@ export default class TaxForm extends Component {
     }
     this.setState({ validatedA: true });
     if (form.checkValidity() === true) {
+      event.preventDefault();
+      event.stopPropagation();
       const {
         basicSalary,
         totalHouseRentAllowances,
@@ -90,10 +92,19 @@ export default class TaxForm extends Component {
       };
 
       axios
-        .post(`https://jsonplaceholder.typicode.com/users`, { data })
+        .post(
+          `https://a68bcbcd-460c-4e83-8310-0ce4ebf432f4.mock.pstmn.io/taxslab/fromCTC`,
+          { data }
+        )
         .then(res => {
           console.log(res.data);
-          this.props.history.push("/taxpaid");
+          this.props.history.push(
+            `/taxpaid?${res.data.id}&tax=${
+              res.data.taxNeedToPay
+            }&taxsavedwopf=${res.data.taxSavedUnder80CWithoutPf}&taxsavedwpf=${
+              res.data.taxSavedUnder80CAfterPfDeduction
+            }`
+          );
         });
     }
 
@@ -124,6 +135,12 @@ export default class TaxForm extends Component {
         });
     }
   }
+
+  handleChangeFormA = (data, event) => {
+    this.setState({
+      formA: { ...this.state.formA, [data]: event.target.value }
+    });
+  };
 
   render() {
     const {
@@ -179,6 +196,10 @@ export default class TaxForm extends Component {
                           type="text"
                           value={formA.basicSalary}
                           placeholder="Basic Salary"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "basicSalary"
+                          )}
                         />
                       </Col>
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -194,6 +215,10 @@ export default class TaxForm extends Component {
                           required
                           value={formA.totalHouseRentAllowances}
                           placeholder="House Rent Allowance"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "totalHouseRentAllowances"
+                          )}
                         />
                       </Col>
                       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -209,6 +234,10 @@ export default class TaxForm extends Component {
                           type="text"
                           value={formA.conveyanceAllowances}
                           placeholder="Conveyance Allowance "
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "conveyanceAllowances"
+                          )}
                         />
                       </Col>
                     </Form.Group>
@@ -223,6 +252,10 @@ export default class TaxForm extends Component {
                           type="text"
                           value={formA.cityCompensatoryAllowances}
                           placeholder="City Compensatory Allowance"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "cityCompensatoryAllowances"
+                          )}
                         />
                       </Col>
                     </Form.Group>
@@ -237,6 +270,10 @@ export default class TaxForm extends Component {
                           type="text"
                           value={formA.providentFund}
                           placeholder="Provident Funds"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "providentFund"
+                          )}
                         />
                       </Col>
                     </Form.Group>
@@ -250,6 +287,7 @@ export default class TaxForm extends Component {
                           type="text"
                           value={formA.others}
                           placeholder="Others"
+                          onChange={this.handleChangeFormA.bind(this, "others")}
                         />
                       </Col>
                     </Form.Group>
@@ -263,6 +301,10 @@ export default class TaxForm extends Component {
                           type="date"
                           value={formA.dateOfBirth}
                           placeholder="dob"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "dateOfBirth"
+                          )}
                         />
                       </Col>
                     </Form.Group>

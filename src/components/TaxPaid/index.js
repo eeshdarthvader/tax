@@ -14,11 +14,20 @@ export default class TaxPaid extends Component {
       tabA: true,
       tabB: false,
       isActiveA: true,
-      isActiveB: false
+      isActiveB: false,
+      valueA: "",
+      valueB: ""
     };
 
     this.onTabAClick = this.onTabAClick.bind(this);
     this.onTabBClick = this.onTabBClick.bind(this);
+  }
+
+  componentDidMount() {
+    const params = new URLSearchParams(this.props.location.search);
+
+    this.setState({ valueA: params.get("tax") });
+    this.setState({ valueB: params.get("taxsavedwopf") });
   }
 
   onTabAClick() {
@@ -98,8 +107,10 @@ export default class TaxPaid extends Component {
                       <Col sm={8}>
                         <Form.Control
                           required
+                          readOnly
                           type="text"
-                          placeholder="Tax to be paid "
+                          placeholder="Tax to be paid"
+                          value={this.state.valueA}
                         />
                       </Col>
                     </Form.Group>
@@ -112,7 +123,9 @@ export default class TaxPaid extends Component {
                         <Form.Control
                           type="text"
                           required
+                          readOnly
                           placeholder="Tax saved under 80c"
+                          value={this.state.valueB}
                         />
                       </Col>
                     </Form.Group>
