@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import Header from "../Header";
+import { calculateAge } from "../../utils";
 
 export default class TaxForm extends Component {
   constructor(props) {
@@ -30,9 +32,11 @@ export default class TaxForm extends Component {
       },
       formB: {
         slab: "",
-        age: "",
         dateOfBirth: ""
-      }
+      },
+      formHorizontalRadios1: "",
+      formHorizontalRadios2: "",
+      formHorizontalRadios3: ""
     };
 
     this.onTabAClick = this.onTabAClick.bind(this);
@@ -74,6 +78,7 @@ export default class TaxForm extends Component {
       const {
         basicSalary,
         totalHouseRentAllowances,
+        payingHouseRentAllowances,
         conveyanceAllowances,
         cityCompensatoryAllowances,
         providentFund,
@@ -83,7 +88,7 @@ export default class TaxForm extends Component {
       const data = {
         basicSalary: basicSalary,
         totalHouseRentAllowances: totalHouseRentAllowances,
-        payingHouseRentAllowances: 96000,
+        payingHouseRentAllowances: payingHouseRentAllowances,
         conveyanceAllowances: conveyanceAllowances,
         cityCompensatoryAllowances: cityCompensatoryAllowances,
         providentFund: providentFund,
@@ -97,18 +102,15 @@ export default class TaxForm extends Component {
           { data }
         )
         .then(res => {
-          console.log(res.data);
           this.props.history.push(
-            `/taxpaid?${res.data.id}&tax=${
+            `/taxpaid?id=${res.data.id}&tax=${
               res.data.taxNeedToPay
             }&taxsavedwopf=${res.data.taxSavedUnder80CWithoutPf}&taxsavedwpf=${
               res.data.taxSavedUnder80CAfterPfDeduction
-            }`
+            }&from=ctc`
           );
         });
     }
-
-    // this.props.history.push("/taxpaid");
   }
 
   handleSubmitB(event) {
@@ -118,20 +120,36 @@ export default class TaxForm extends Component {
       event.stopPropagation();
     }
     this.setState({ validatedB: true });
-    this.props.history.push("/taxpaid");
     if (form.checkValidity() === true) {
-      const { slab, age, dateOfBirth } = this.state.formB;
-      const data = {
-        slab: slab,
-        age: age,
-        dateOfBirth: dateOfBirth
-      };
+      event.preventDefault();
+      event.stopPropagation();
+      const { dateOfBirth } = this.state.formB;
+
+      let salarySlab = "";
+      if (this.state.formHorizontalRadios1) {
+        salarySlab = this.state.formHorizontalRadios1;
+      }
+      if (this.state.formHorizontalRadios2) {
+        salarySlab = this.state.formHorizontalRadios2;
+      }
+      if (this.state.formHorizontalRadios3) {
+        salarySlab = this.state.formHorizontalRadios3;
+      }
 
       axios
-        .post(`https://jsonplaceholder.typicode.com/users`, { data })
+        .get(
+          `https://a68bcbcd-460c-4e83-8310-0ce4ebf432f4.mock.pstmn.io/taxslab/fromBreakUp/${salarySlab}?dob=${dateOfBirth}&age=${calculateAge(
+            dateOfBirth
+          )}`
+        )
         .then(res => {
-          console.log(res.data);
-          this.props.history.push("/taxpaid");
+          this.props.history.push(
+            `/taxpaid?id=${res.data.id}&tax=${
+              res.data.taxNeedToPay
+            }&taxsavedwopf=${res.data.taxSavedUnder80CWithoutPf}&taxsavedwpf=${
+              res.data.taxSavedUnder80CAfterPfDeduction
+            }&from=taxslab`
+          );
         });
     }
   }
@@ -139,6 +157,18 @@ export default class TaxForm extends Component {
   handleChangeFormA = (data, event) => {
     this.setState({
       formA: { ...this.state.formA, [data]: event.target.value }
+    });
+  };
+
+  handleChangeFormB = (data, event) => {
+    this.setState({
+      formB: { ...this.state.formB, [data]: event.target.value }
+    });
+  };
+
+  onRadioButtonChanged = (data, e) => {
+    this.setState({
+      [data]: e.currentTarget.value
     });
   };
 
@@ -218,6 +248,25 @@ export default class TaxForm extends Component {
                           onChange={this.handleChangeFormA.bind(
                             this,
                             "totalHouseRentAllowances"
+                          )}
+                        />
+                      </Col>
+                      <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group as={Row} controlId="formHorizontalPHRA">
+                      <Form.Label column sm={4}>
+                        Paying House Rent Allowance
+                      </Form.Label>
+                      <Col sm={8}>
+                        <Form.Control
+                          type="text"
+                          required
+                          value={formA.payingHouseRentAllowances}
+                          placeholder="Paying House Rent Allowance"
+                          onChange={this.handleChangeFormA.bind(
+                            this,
+                            "payingHouseRentAllowances"
                           )}
                         />
                       </Col>
@@ -331,22 +380,39 @@ export default class TaxForm extends Component {
                         <Col sm={10}>
                           <Form.Check
                             type="radio"
-                            selected
+                            selected={this.state.formHorizontalRadios1}
                             label="0 - 5 Lac"
+                            value={"5"}
                             name="formHorizontalRadios"
                             id="formHorizontalRadios1"
+                            onChange={this.onRadioButtonChanged.bind(
+                              this,
+                              "formHorizontalRadios1"
+                            )}
                           />
                           <Form.Check
                             type="radio"
                             label="5 - 10 Lacs"
+                            value={"10"}
+                            selected={this.state.formHorizontalRadios2}
                             name="formHorizontalRadios"
                             id="formHorizontalRadios2"
+                            onChange={this.onRadioButtonChanged.bind(
+                              this,
+                              "formHorizontalRadios2"
+                            )}
                           />
                           <Form.Check
                             type="radio"
+                            selected={this.state.formHorizontalRadios3}
+                            value={"20"}
                             label="10 Lac and above"
                             name="formHorizontalRadios"
                             id="formHorizontalRadios3"
+                            onChange={this.onRadioButtonChanged.bind(
+                              this,
+                              "formHorizontalRadios3"
+                            )}
                           />
                         </Col>
                       </Form.Group>
@@ -358,9 +424,13 @@ export default class TaxForm extends Component {
                         <Col sm={8}>
                           <Form.Control
                             required
-                            // value={formB.dateOfBirth}
+                            value={formB.dateOfBirth}
                             type="date"
                             placeholder="dob"
+                            onChange={this.handleChangeFormB.bind(
+                              this,
+                              "dateOfBirth"
+                            )}
                           />
                         </Col>
                       </Form.Group>

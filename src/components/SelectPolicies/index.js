@@ -14,11 +14,15 @@ export default class SelectPolicies extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      itineraryId: "",
       policies: []
     };
   }
 
   componentDidMount() {
+    const params = new URLSearchParams(this.props.location.search);
+    this.setState({ itineraryId: params.get("id") });
+
     axios
       .get(
         `https://demo2675507.mockable.io/policyInfo/f3645fbb-1416-4416-8af7-20d4b1311de6%3FsumAssured=500000`
@@ -29,7 +33,7 @@ export default class SelectPolicies extends Component {
       });
   }
   openPolicy = () => {
-    this.props.history.push("/policydetails");
+    this.props.history.push(`/policydetails?id=${this.state.itineraryId}`);
   };
   render() {
     const { policies } = this.state;
@@ -47,7 +51,7 @@ export default class SelectPolicies extends Component {
                         {capitalize(policy.policyName)}
                       </Col>
                       <Col xs="4" md="2" lg="2">
-                        <Badge variant="secondary" className="fs-13 glow">
+                        <Badge variant="secondary" className="fs-13">
                           {policy.policyCode}
                         </Badge>
                       </Col>
@@ -81,6 +85,11 @@ export default class SelectPolicies extends Component {
                             <span className="fs-15">
                               {policy.maturityAmount}
                             </span>
+                          </div>
+                          <div>
+                            <span className="fw-600 fs-15">Maturity Term:</span>
+                            {"  "}
+                            <span className="fs-15">25 years</span>
                           </div>
                         </Card.Text>
                       </Col>

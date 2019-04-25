@@ -11,6 +11,7 @@ export default class TaxPaid extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      itineraryId: "",
       tabA: true,
       tabB: false,
       isActiveA: true,
@@ -26,8 +27,27 @@ export default class TaxPaid extends Component {
   componentDidMount() {
     const params = new URLSearchParams(this.props.location.search);
 
-    this.setState({ valueA: params.get("tax") });
-    this.setState({ valueB: params.get("taxsavedwopf") });
+    this.setState({ itineraryId: params.get("id") });
+
+    const isCTCTabActive = params.get("from") === "ctc";
+    const isTaxSlabTabActive = params.get("from") === "taxslab";
+
+    if (isCTCTabActive) {
+      this.setState({ value1: params.get("tax") });
+      this.setState({ value2: params.get("taxsavedwopf") });
+      this.setState({ value3: params.get("taxsavedwpf") });
+      this.setState({ tabA: true });
+      this.setState({ tabB: false });
+    } else {
+      this.setState({ value4: params.get("tax") });
+      this.setState({ value5: params.get("taxsavedwopf") });
+      this.setState({ value6: params.get("taxsavedwpf") });
+      this.setState({ tabA: false });
+      this.setState({ tabB: true });
+    }
+
+    this.setState({ isActiveA: isCTCTabActive });
+    this.setState({ isActiveB: isTaxSlabTabActive });
   }
 
   onTabAClick() {
@@ -54,12 +74,12 @@ export default class TaxPaid extends Component {
 
   handleSubmitA(event) {
     const form = event.currentTarget;
-    this.props.history.push("/selectpolicies");
+    this.props.history.push(`/selectpolicies?id=${this.state.itineraryId}`);
   }
 
   handleSubmitB(event) {
     const form = event.currentTarget;
-    this.props.history.push("/selectpolicies");
+    this.props.history.push(`/selectpolicies?id=${this.state.itineraryId}`);
   }
 
   render() {
@@ -110,22 +130,37 @@ export default class TaxPaid extends Component {
                           readOnly
                           type="text"
                           placeholder="Tax to be paid"
-                          value={this.state.valueA}
+                          value={this.state.value1}
                         />
                       </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formHorizontal80C">
                       <Form.Label column sm={4}>
-                        Tax saved under 80c
+                        Tax saved under 80c without PF
                       </Form.Label>
                       <Col sm={8}>
                         <Form.Control
                           type="text"
                           required
                           readOnly
-                          placeholder="Tax saved under 80c"
-                          value={this.state.valueB}
+                          placeholder="Tax saved under 80c without PF"
+                          value={this.state.value2}
+                        />
+                      </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} controlId="formHorizontal80C">
+                      <Form.Label column sm={4}>
+                        Tax saved under 80c with PF deducted
+                      </Form.Label>
+                      <Col sm={8}>
+                        <Form.Control
+                          type="text"
+                          required
+                          readOnly
+                          placeholder="Tax saved under 80c with PF deducted"
+                          value={this.state.value3}
                         />
                       </Col>
                     </Form.Group>
@@ -148,21 +183,40 @@ export default class TaxPaid extends Component {
                       <Col sm={8}>
                         <Form.Control
                           required
+                          readOnly
                           type="text"
                           placeholder="Tax to be paid "
+                          value={this.state.value4}
                         />
                       </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} controlId="formHorizontal80C">
                       <Form.Label column sm={4}>
-                        Tax saved under 80c
+                        Tax saved under 80c without PF
                       </Form.Label>
                       <Col sm={8}>
                         <Form.Control
                           type="text"
                           required
-                          placeholder="Tax saved under 80c"
+                          readOnly
+                          placeholder="Tax saved under 80c without PF"
+                          value={this.state.value5}
+                        />
+                      </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} controlId="formHorizontal80C">
+                      <Form.Label column sm={4}>
+                        Tax saved under 80c with PF deducted
+                      </Form.Label>
+                      <Col sm={8}>
+                        <Form.Control
+                          type="text"
+                          required
+                          readOnly
+                          placeholder="Tax saved under 80c with PF deducted"
+                          value={this.state.value6}
                         />
                       </Col>
                     </Form.Group>

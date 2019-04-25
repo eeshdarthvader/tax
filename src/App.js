@@ -5,7 +5,8 @@ import TaxForm from "./components/TaxForm";
 import TaxPaid from "./components/TaxPaid";
 import SelectPolicies from "./components/SelectPolicies";
 import PolicyDetails from "./components/PolicyDetails";
-import BookPolicy from "./components/BookPolicy"
+import BookPolicy from "./components/BookPolicy";
+import Confirmation from "./components/Confirmation";
 
 import "./App.css";
 
@@ -20,7 +21,7 @@ class App extends Component {
           <Route path="/selectpolicies" exact component={SelectPolicies} />
           <Route path="/policydetails" exact component={PolicyDetails} />
           <Route path="/bookpolicy" exact component={BookPolicy} />
-          
+          <Route path="/confirmation" exact component={Confirmation} />
         </div>
       </Router>
     );

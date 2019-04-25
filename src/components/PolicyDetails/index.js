@@ -6,7 +6,8 @@ import Button from "react-bootstrap/Button";
 
 export default class PolicyDetails extends Component {
   startBookFlow = () => {
-    this.props.history.push("/bookpolicy");
+    const params = new URLSearchParams(this.props.location.search);
+    this.props.history.push(`/bookpolicy?id=${params.get("id")}`);
   };
   render() {
     return (
